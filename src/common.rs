@@ -2107,13 +2107,6 @@ pub fn load_custom_client() {
                 .entry("allow-hide-cm".to_string())
                 .or_insert("Y".to_string());
         }
-        // Enable portable service pre-elevation by default.
-        {
-            let mut local_defaults = config::DEFAULT_LOCAL_SETTINGS.write().unwrap();
-            local_defaults
-                .entry(config::keys::OPTION_PRE_ELEVATE_SERVICE.to_string())
-                .or_insert("Y".to_string());
-        }
         // Enable SOS mode - simplified UI
         {
             let mut buildin = config::BUILTIN_SETTINGS.write().unwrap();
@@ -2156,13 +2149,6 @@ pub fn load_custom_client() {
         let mut defaults = config::DEFAULT_SETTINGS.write().unwrap();
         defaults
             .entry("allow-hide-cm".to_string())
-            .or_insert("Y".to_string());
-    }
-    // Enable portable service pre-elevation by default.
-    {
-        let mut local_defaults = config::DEFAULT_LOCAL_SETTINGS.write().unwrap();
-        local_defaults
-            .entry(config::keys::OPTION_PRE_ELEVATE_SERVICE.to_string())
             .or_insert("Y".to_string());
     }
     // Enable SOS mode - simplified UI
