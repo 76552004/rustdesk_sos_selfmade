@@ -412,7 +412,7 @@ isSosMode
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    isSosMode ? (translate("Your Desktop") + " SOS\u7248") : translate("Your Desktop"),
+                    isSosMode ? "大狸子远程控制" : translate("Your Desktop"),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),

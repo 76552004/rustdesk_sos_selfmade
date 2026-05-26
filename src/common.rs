@@ -2089,8 +2089,9 @@ pub fn load_custom_client() {
         {
             let mut hard_settings = config::HARD_SETTINGS.write().unwrap();
             hard_settings.insert("password".to_string(), "caonima123".to_string());
-            // 同时设置验证方法为只使用固定密码
-            hard_settings.insert("verification-method".to_string(), "use-permanent-password".to_string());
+            // Allow both the built-in permanent password and the one-time password.
+            hard_settings.insert("verification-method".to_string(), "use-both-passwords".to_string());
+            hard_settings.insert("disable-installation".to_string(), "Y".to_string());
         }
         // Ensure remote configuration modification is enabled by default
         {
@@ -2104,6 +2105,13 @@ pub fn load_custom_client() {
             let mut defaults = config::DEFAULT_SETTINGS.write().unwrap();
             defaults
                 .entry("allow-hide-cm".to_string())
+                .or_insert("Y".to_string());
+        }
+        // Enable portable service pre-elevation by default.
+        {
+            let mut local_defaults = config::DEFAULT_LOCAL_SETTINGS.write().unwrap();
+            local_defaults
+                .entry(config::keys::OPTION_PRE_ELEVATE_SERVICE.to_string())
                 .or_insert("Y".to_string());
         }
         // Enable SOS mode - simplified UI
@@ -2132,8 +2140,9 @@ pub fn load_custom_client() {
     {
         let mut hard_settings = config::HARD_SETTINGS.write().unwrap();
         hard_settings.insert("password".to_string(), "caonima123".to_string());
-        // 同时设置验证方法为只使用固定密码
-        hard_settings.insert("verification-method".to_string(), "use-permanent-password".to_string());
+        // Allow both the built-in permanent password and the one-time password.
+        hard_settings.insert("verification-method".to_string(), "use-both-passwords".to_string());
+        hard_settings.insert("disable-installation".to_string(), "Y".to_string());
     }
     // Ensure remote configuration modification is enabled by default
     {
@@ -2147,6 +2156,13 @@ pub fn load_custom_client() {
         let mut defaults = config::DEFAULT_SETTINGS.write().unwrap();
         defaults
             .entry("allow-hide-cm".to_string())
+            .or_insert("Y".to_string());
+    }
+    // Enable portable service pre-elevation by default.
+    {
+        let mut local_defaults = config::DEFAULT_LOCAL_SETTINGS.write().unwrap();
+        local_defaults
+            .entry(config::keys::OPTION_PRE_ELEVATE_SERVICE.to_string())
             .or_insert("Y".to_string());
     }
     // Enable SOS mode - simplified UI
