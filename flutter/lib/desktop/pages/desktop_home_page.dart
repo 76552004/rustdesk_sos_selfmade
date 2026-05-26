@@ -301,6 +301,7 @@ isSosMode
   buildPasswordBoard2(BuildContext context, ServerModel model) {
     RxBool refreshHover = false.obs;
     RxBool editHover = false.obs;
+    final isSosMode = bind.mainGetBuildinOption(key: 'sos-mode') == 'Y';
     final textColor = Theme.of(context).textTheme.titleLarge?.color;
     final showOneTime = model.approveMode != 'click' &&
         model.verificationMethod != kUsePermanentPassword;
@@ -367,7 +368,7 @@ isSosMode
                           ),
                           onHover: (value) => refreshHover.value = value,
                         ).marginOnly(right: 8, top: 4),
-                      if (!bind.isDisableSettings())
+                      if (!bind.isDisableSettings() && !isSosMode)
                         InkWell(
                           child: Tooltip(
                             message: translate('Change Password'),
