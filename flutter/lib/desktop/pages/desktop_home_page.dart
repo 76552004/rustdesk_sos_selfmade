@@ -100,6 +100,7 @@ isSosMode
       buildTip(context),
       if (!isOutgoingOnly) buildIDBoard(context),
       if (!isOutgoingOnly) buildPasswordBoard(context),
+      if (!isOutgoingOnly && isSosMode) buildCopyIdPasswordButton(context),
       FutureBuilder<Widget>(
         future: Future.value(
             Obx(() => buildHelpCards(stateGlobal.updateUrl.value))),
@@ -296,6 +297,45 @@ isSosMode
             return buildPasswordBoard2(context, model);
           },
         ));
+  }
+
+  Widget buildCopyIdPasswordButton(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.titleLarge?.color;
+    return Consumer<ServerModel>(
+      builder: (context, model, child) {
+        return Container(
+          width: double.infinity,
+          height: 34,
+          margin: const EdgeInsets.only(left: 20, right: 16, bottom: 10),
+          child: OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: textColor,
+              side: BorderSide(
+                color: textColor?.withOpacity(0.18) ?? const Color(0x33000000),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+            ),
+            icon: const Icon(Icons.copy_outlined, size: 16),
+            label: const Text(
+              "复制ID和密码",
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 13),
+            ),
+            onPressed: () {
+              final id = model.serverId.text.trim();
+              final password = model.serverPasswd.text.trim();
+              Clipboard.setData(
+                ClipboardData(text: "ID: $id\n密码: $password"),
+              );
+              showToast(translate("Copied"));
+            },
+          ),
+        );
+      },
+    );
   }
 
   buildPasswordBoard2(BuildContext context, ServerModel model) {
