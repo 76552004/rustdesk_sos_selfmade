@@ -65,9 +65,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-isSosMode
+        isSosMode
           ? SizedBox(
-              width: 380,
+              width: 340,
               child: buildLeftPane(context),
             )
           : buildLeftPane(context),
@@ -101,6 +101,7 @@ isSosMode
       if (!isOutgoingOnly) buildIDBoard(context),
       if (!isOutgoingOnly) buildPasswordBoard(context),
       if (!isOutgoingOnly && isSosMode) buildCopyIdPasswordButton(context),
+      if (!isOutgoingOnly && isSosMode) buildSosInstallTip(context),
       FutureBuilder<Widget>(
         future: Future.value(
             Obx(() => buildHelpCards(stateGlobal.updateUrl.value))),
@@ -139,7 +140,7 @@ isSosMode
     return ChangeNotifierProvider.value(
       value: gFFI.serverModel,
       child: Container(
-        width: isIncomingOnly ? 280.0 : 200.0,
+        width: isSosMode ? 340.0 : (isIncomingOnly ? 280.0 : 200.0),
         color: Theme.of(context).colorScheme.background,
         child: Stack(
           children: [
@@ -306,7 +307,7 @@ isSosMode
         return Container(
           width: double.infinity,
           height: 34,
-          margin: const EdgeInsets.only(left: 20, right: 16, bottom: 10),
+          margin: const EdgeInsets.only(left: 20, right: 16, top: 6, bottom: 12),
           child: OutlinedButton.icon(
             style: OutlinedButton.styleFrom(
               foregroundColor: textColor,
@@ -335,6 +336,42 @@ isSosMode
           ),
         );
       },
+    );
+  }
+
+  Widget buildSosInstallTip(BuildContext context) {
+    final theme = Theme.of(context);
+    final textColor =
+        theme.textTheme.bodySmall?.color ?? theme.textTheme.titleLarge?.color;
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(left: 20, right: 16, bottom: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: MyTheme.accent.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: MyTheme.accent.withOpacity(0.18)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.info_outline_rounded,
+            size: 15,
+            color: MyTheme.accent,
+          ).marginOnly(top: 1, right: 6),
+          Expanded(
+            child: Text(
+              "温馨提示：SOS版本无需安装，点关闭即可",
+              style: TextStyle(
+                fontSize: 12,
+                height: 1.2,
+                color: textColor?.withOpacity(0.72),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
